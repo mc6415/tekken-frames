@@ -15,7 +15,7 @@
 	// your script goes here
 	export let data;
 
-	import { DataHandler, type Field } from '@vincjo/datatables';
+	import { DataHandler, type Field , check} from '@vincjo/datatables';
 	import { fade } from 'svelte/transition'
 
 	let { character } = data;
@@ -30,6 +30,7 @@
 	};
 	let trapMove: move;
 	let currentTab: string = 'moves'
+	let filter: string = ''
 
 	const handler = new DataHandler(allMoves);
 	const sort = handler.getSort();
@@ -63,6 +64,10 @@
 		trapMove = move
 
 		extensions = allMoves.filter(x => x.input.startsWith(`${move.input},`))
+	}
+
+	function filterMoves() {
+		handler.filter(filter, 'input', check.isLike)
 	}
 
 </script>
@@ -105,6 +110,12 @@
 	<div class="flex gap-4 align-top">
 		{#if currentTab === 'moves'}
 			<div>
+				<input 
+					class="text-black mb-4 text-lg pl-2"
+					bind:value={filter} 
+					on:input="{() => filterMoves()}"
+					type="text"
+				>
 				<table class="movetable__table rounded-md">
 					<thead>
 						<tr>

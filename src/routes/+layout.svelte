@@ -19,7 +19,7 @@
     @apply bg-teal-800 font-mono text-white;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    min-height: 100vh;
   }
 
   nav {
