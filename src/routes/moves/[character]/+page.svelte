@@ -31,6 +31,7 @@
 	let trapMove: move;
 	let currentTab: string = 'moves'
 	let filter: string = ''
+	let trapFilter: string = ''
 
 	const handler = new DataHandler(allMoves);
 	const sort = handler.getSort();
@@ -70,6 +71,9 @@
 		handler.filter(filter, 'input', check.isLike)
 	}
 
+	function filterTraps() {
+		trapsHandler.filter(trapFilter, 'input', check.isLike)
+	}
 </script>
 
 <div class="container movetable pl-4">
@@ -215,6 +219,12 @@
 		{#if traps.length > 0 && currentTab === 'traps'}
 			<div class="trapsContainer">
 				<h2>Potentials traps for {trapsFor.move.input} on {trapsFor.frameType}</h2>
+				<input
+					class="text-black mb-4 mt-4 text-lg pl-2"
+					bind:value={trapFilter}
+					on:input={() => filterTraps()}
+					type="text"
+				>
 				<table class="mt-2">
 					<thead>
 						<tr>
