@@ -30,6 +30,7 @@
   }
 
   footer {
+    @apply mt-6;
     height: 50px;
     width: 100%;
     display: flex;

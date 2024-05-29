@@ -11,6 +11,7 @@
 		hitFrameValue: number;
 		chFrame: string;
 		chFrameValue: number;
+		trades?: boolean;
 	};
 	// your script goes here
 	export let data;
@@ -47,13 +48,18 @@
 	}
 
 	function getTraps(frames: number, move: move, frameType: string) {
-		traps = filteredMoves.filter(x => x.startupValue && x.startupValue - frames < 10 )
+		traps = filteredMoves.filter(x => x.startupValue && x.startupValue - frames <= 10 )
+
+		traps.forEach(trap => {
+			trap.startupValue - frames === 10 ? trap.trades = true : trap.trades = false
+		})
 
 		trapsFor = {
 			move,
 			frameType
 		}
 
+		console.log(traps)
 		trapsHandler.setRows(traps)
 	}
 
@@ -270,6 +276,7 @@
 								Hit
 							</th>
 							<th>CH</th>
+							<th on:click={() => sortTraps('trades')}>Trades</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -281,6 +288,11 @@
 								<td>{row.blockFrame}</td>
 								<td>{row.hitFrame}</td>
 								<td>{row.chFrame}</td>
+								<td>
+									{#if row.trades}
+										✅
+									{/if}
+								</td>
 							</tr>
 						{/each}
 					</tbody>
@@ -332,7 +344,20 @@
 
 <style lang="postcss">
 	table {
-		@apply text-white border-e border-s border-b;
+		@apply text-white rounded-md border-white border-separate border 
+			border-spacing-0;
+	}
+
+	tr { 
+		&:last-child {
+			& > td:first-child {
+				@apply rounded-bl-md;
+			}
+
+			& > td:last-child {
+				@apply rounded-br-md;
+			}
+		}
 	}
 
 	td {
@@ -340,7 +365,11 @@
 	}
 
 	th {
-		@apply border px-4 py-3;
+		@apply border-b px-4 py-3;
+
+		&:not(:last-child) {
+			@apply border-r
+		}
 	}
 
 	.tabs__item {
@@ -353,10 +382,6 @@
 	.movetable {
 		&__table {
 			@apply m-auto;
-
-			th {
-				@apply border px-4 py-2;
-			}
 		}
 	}
 </style>
