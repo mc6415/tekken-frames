@@ -192,7 +192,7 @@
 					</thead>
 					<tbody class="movetable__table-body">
 						{#each $rows as row}
-							<tr class="even:bg-gray-600 odd:bg-slate-700">
+							<tr class="even:bg-lilac-800 odd:bg-lilac-900">
 								<td>{row.input}</td>
 								<td>
 									{#if row.damage}
@@ -281,7 +281,7 @@
 					</thead>
 					<tbody>
 						{#each $trapRows as row}
-							<tr class="even:bg-gray-600 odd:bg-slate-700" on:click={() => getExtensions(row)}>
+							<tr class="even:bg-lilac-800 odd:bg-lilac-900" on:click={() => getExtensions(row)}>
 								<td>{row.input}</td>
 								<td>{row.damage}</td>
 								<td>{row.startup}</td>
@@ -315,14 +315,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="bg-slate-700">
+						<tr class="bg-lilac-900">
 							<td>{trapMove.input}</td>
 							<td>{trapMove.blockFrame}</td>
 							<td>{trapMove.hitFrame}</td>
 							<td>{trapMove.chFrame}</td>
 						</tr>
 						{#each extensions as extension}
-							<tr class="even:bg-gray-600 odd:bg-slate-700">
+							<tr class="even:bg-lilac-800 odd:bg-lilac-900">
 								<td>{ extension.input }</td>
 								<td>{ extension.blockFrame }</td>
 								<td>{ extension.hitFrame }</td>
@@ -372,10 +372,16 @@
 		}
 	}
 
+	thead {
+		@apply bg-black;
+		position:sticky;
+		inset-block-start: 0;
+	}
+
 	.tabs__item {
 		@apply py-4 px-2;
 		&.active {
-			@apply bg-blue-600;
+			@apply bg-lilac-700;
 		}
 	}
 
