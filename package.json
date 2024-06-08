@@ -36,6 +36,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sentry/sveltekit": "^8.8.0",
 		"@svelte-plugins/tooltips": "^3.0.1",
 		"@tanstack/svelte-table": "^8.17.3",
 		"@vincjo/datatables": "^1.14.5",
