@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { tooltip } from '@svelte-plugins/tooltips'
+	import { debounce } from 'remeda'
+
 	type move = {
 		input: string;
 		startup: string;
@@ -12,6 +15,8 @@
 		chFrame: string;
 		chFrameValue: number;
 		trades?: boolean;
+		balconyBreak?: boolean;
+		notes?: string;
 	};
 	// your script goes here
 	export let data;
@@ -47,6 +52,14 @@
 		handler.sort(sortField as Field<move>);
 	}
 
+	function getStrings() {
+		const strings = allMoves.filter(move => {
+			return move.input.split(',').length > 1
+		})
+
+		handler.setRows(strings)
+	}
+
 	function getTraps(frames: number, move: move, frameType: string) {
 		traps = filteredMoves.filter(x => x.startupValue && x.startupValue - frames <= 10 )
 
@@ -78,8 +91,14 @@
 		extensions = allMoves.filter(x => x.input.startsWith(`${move.input},`))
 	}
 
-	function filterMoves() {
+	const filterDebouncer = debounce(() => {
 		handler.filter(filter, 'input', check.isLike)
+	}, {
+		waitMs: 500,
+	})
+
+	function filterMoves() {
+		filterDebouncer.call()
 	}
 
 	function filterTraps() {
@@ -125,12 +144,19 @@
 	<div class="flex gap-4 align-top">
 		{#if currentTab === 'moves'}
 			<div>
-				<input 
-					class="text-black mb-4 text-lg pl-2"
-					bind:value={filter} 
-					on:input="{() => filterMoves()}"
-					type="text"
+				<div 
+					class="move_filters mb-4"
 				>
+					<label for="strings">Strings</label>
+					<input 
+						type="checkbox" 
+						name="strings"
+						id="strings"
+						on:change={() => {
+							getStrings()
+						}}
+					>
+				</div>
 				<table class="movetable__table rounded-md">
 					<thead>
 						<tr>
@@ -153,6 +179,9 @@
 									{/if}
 								{/if}
 								Damage
+							</th>
+							<th>
+								Hit Level
 							</th>
 							<th on:click={() => sortBy('startupValue')}>
 								{#if $sort.identifier === 'startupValue'}
@@ -193,16 +222,41 @@
 								{/if}
 								{/if}
 								CH</th>
+								<th on:click={() => sortBy('balconyBreak')}>
+									Balcony Break
+								</th>
+						</tr>
+						<tr>
+							<th>
+								<input 
+									type="text"
+									bind:value={filter}
+									on:input="{() => filterMoves()}"
+								>
+							</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody class="movetable__table-body">
 						{#each $rows as row}
-							<tr class="even:bg-lilac-800 odd:bg-lilac-900">
+							<tr
+								class="even:bg-lilac-800 odd:bg-lilac-900"
+								use:tooltip={{ content: row.notes }}
+							>
 								<td>{row.input}</td>
 								<td>
 									{#if row.damage}
 										{row.damage}
 									{/if}
+								</td>
+								<td>
+									{row.hitLevel}
 								</td>
 								<td>{row.startup}</td>
 								<td on:click={() => getTraps(row.blockFrameValue, row, 'block')}>
@@ -218,6 +272,11 @@
 								<td>
 									{#if row.chFrame !== null}
 										{row.chFrame}
+									{/if}
+								</td>
+								<td>
+									{#if row.balconyBreak}
+										✅
 									{/if}
 								</td>
 							</tr>
@@ -280,8 +339,20 @@
 								{/if}
 								Hit
 							</th>
-							<th>CH</th>
+							<th on:click={() => sortTraps('chFrameValue')}>
+								{#if $trapsSort.identifier === 'chFrameValue'}
+									{#if $trapsSort.direction === 'asc'}
+										⬆️
+									{:else}
+										⬇️
+									{/if}
+								{/if}
+								CH
+							</th>
 							<th on:click={() => sortTraps('trades')}>Trades</th>
+							<th on:click={() => sortTraps('balconyBreak')}>
+								Balcony Break
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -295,6 +366,11 @@
 								<td>{row.chFrame}</td>
 								<td>
 									{#if row.trades}
+										✅
+									{/if}
+								</td>
+								<td>
+									{#if row.balconyBreak}
 										✅
 									{/if}
 								</td>

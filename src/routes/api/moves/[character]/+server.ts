@@ -29,7 +29,9 @@ export async function GET({ params }) {
 			hitFrame: $(cells[5]).text(),
 			hitFrameValue: parseInt($(cells[5]).text()),
 			chFrame: $(cells[6]).text(),
-			chFrameValue: parseInt($(cells[6]).text())
+			chFrameValue: parseInt($(cells[6]).text()),
+			balconyBreak: $(cells[8]).text().toLowerCase().includes('balcony break'),
+			notes: $(cells[8]).text(),
 		};
 
 		filteredMoves.push(move);
@@ -60,7 +62,9 @@ export async function GET({ params }) {
 			hitFrame: $(cells[5]).text(),
 			hitFrameValue: parseInt($(cells[5]).text()),
 			chFrame: $(cells[6]).text(),
-			chFrameValue: parseInt($(cells[6]).text())
+			chFrameValue: parseInt($(cells[6]).text()),
+			balconyBreak: $(cells[8]).text().toLowerCase().includes('balcony break'),
+			notes: $(cells[8]).text(),
 		};
 
 		allMoves.push(move);

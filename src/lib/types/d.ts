@@ -10,4 +10,6 @@ type move = {
   hitFrameValue: number,
   chFrame: string,
   chFrameValue: number,
+  balconyBreak?: boolean,
+  notes?: string,
 }
