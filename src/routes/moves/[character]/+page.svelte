@@ -52,12 +52,24 @@
 		handler.sort(sortField as Field<move>);
 	}
 
-	function getStrings() {
+	function getStrings(event: Event) {
+		const checkbox = event.target as HTMLInputElement
+
+		if(!checkbox.checked) {
+			handler.setRows(allMoves)
+			return
+		}
+
 		const strings = allMoves.filter(move => {
 			return move.input.split(',').length > 1
 		})
 
 		handler.setRows(strings)
+	}
+
+	function clearMoveFilters() {
+		filter = ''
+		handler.clearFilters()
 	}
 
 	function getTraps(frames: number, move: move, frameType: string) {
@@ -152,8 +164,8 @@
 						type="checkbox" 
 						name="strings"
 						id="strings"
-						on:change={() => {
-							getStrings()
+						on:change={(event) => {
+							getStrings(event)
 						}}
 					>
 				</div>
@@ -230,6 +242,7 @@
 							<th>
 								<input 
 									type="text"
+									class="text-black p-1"
 									bind:value={filter}
 									on:input="{() => filterMoves()}"
 								>
