@@ -61,7 +61,9 @@
 		}
 
 		const strings = allMoves.filter(move => {
-			return move.input.split(',').length > 1
+			const moveSplit = move.input.substring(move.input.indexOf('+') + 1);
+
+			return moveSplit.split(',').length > 1
 		})
 
 		handler.setRows(strings)
