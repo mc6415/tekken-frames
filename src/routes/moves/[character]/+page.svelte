@@ -17,6 +17,7 @@
 		trades?: boolean;
 		balconyBreak?: boolean;
 		notes?: string;
+		tornado?: boolean;
 	};
 	// your script goes here
 	export let data;
@@ -38,6 +39,8 @@
 	let currentTab: string = 'moves'
 	let filter: string = ''
 	let trapFilter: string = ''
+
+	console.log(allMoves)
 
 	const handler = new DataHandler(allMoves);
 	const sort = handler.getSort();
@@ -67,6 +70,19 @@
 		})
 
 		handler.setRows(strings)
+	}
+
+	function getTornado(event: Event) {
+		const checkbox = event.target as HTMLInputElement
+
+		if(!checkbox.checked) {
+			handler.setRows(allMoves)
+			return
+		}
+
+		const tornadoMoves = allMoves.filter(move => move.tornado)
+
+		handler.setRows(tornadoMoves)
 	}
 
 	function clearMoveFilters() {
@@ -168,6 +184,16 @@
 						id="strings"
 						on:change={(event) => {
 							getStrings(event)
+						}}
+					>
+
+					<label for="tornado">Tornado Moves</label>
+					<input 
+						type="checkbox" 
+						name="tornado" 
+						id="tornado"
+						on:change={(event) => {
+							getTornado(event)
 						}}
 					>
 				</div>

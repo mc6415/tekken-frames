@@ -31,6 +31,7 @@ export async function GET({ params }) {
 			chFrame: $(cells[6]).text(),
 			chFrameValue: parseInt($(cells[6]).text()),
 			balconyBreak: $(cells[8]).text().toLowerCase().includes('balcony break'),
+			tornado: $(cells[8]).text().toLowerCase().includes('tornado'),
 			notes: $(cells[8]).text(),
 		};
 
@@ -64,6 +65,7 @@ export async function GET({ params }) {
 			chFrame: $(cells[6]).text(),
 			chFrameValue: parseInt($(cells[6]).text()),
 			balconyBreak: $(cells[8]).text().toLowerCase().includes('balcony break'),
+			tornado: $(cells[8]).text().toLowerCase().includes('tornado'),
 			notes: $(cells[8]).text(),
 		};
 

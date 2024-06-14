@@ -12,4 +12,5 @@ type move = {
   chFrameValue: number,
   balconyBreak?: boolean,
   notes?: string,
+  tornado?: boolean,
 }
