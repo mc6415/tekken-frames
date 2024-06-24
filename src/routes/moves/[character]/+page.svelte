@@ -65,12 +65,20 @@
 	function getMoveTraps(row: move) {
 		console.log(row);
 		blockTraps = allMoves.filter((move) => {
-			return row.startupValue - move.blockFrameValue <= 10;
+			return row.startupValue - move.blockFrameValue <= 10 && move.blockFrameValue
 		});
 
 		hitTraps = allMoves.filter((move) => {
-			return row.startupValue - move.hitFrameValue <= 10;
+			return row.startupValue - move.hitFrameValue <= 10 && move.hitFrameValue;
 		});
+
+		blockTraps.forEach(blockTrap => {
+			blockTrap.trades = row.startupValue - blockTrap.blockFrameValue === 10
+		})
+
+		hitTraps.forEach(hitTrap => {
+			hitTrap.trades = row.startupValue - hitTrap.blockFrameValue === 10
+		})
 
 		blockTrapsHandler.setRows(blockTraps);
 		hitTrapsHandler.setRows(hitTraps);
@@ -542,6 +550,7 @@
 								{/if}
 								CH
 							</th>
+							<th>Trades</th>
 						</tr>
 						<tr>
 							<th>
@@ -556,6 +565,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -566,6 +576,11 @@
 								<td>{move.blockFrame}</td>
 								<td>{move.hitFrame}</td>
 								<td>{move.chFrame}</td>
+								<td>
+									{#if move.trades}
+										✅
+									{/if}
+								</td>
 							</tr>
 						{/each}
 					</tbody>
@@ -625,6 +640,9 @@
 								{/if}
 								CH
 							</th>
+							<th>
+								Trades
+							</th>
 						</tr>
 						<tr>
 							<th>
@@ -639,6 +657,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -649,6 +668,11 @@
 								<td>{move.blockFrame}</td>
 								<td>{move.hitFrame}</td>
 								<td>{move.chFrame}</td>
+								<td>
+									{#if move.trades}
+										✅
+									{/if}
+								</td>
 							</tr>
 						{/each}
 					</tbody>
