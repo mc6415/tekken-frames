@@ -19,7 +19,7 @@ export async function GET({ params }) {
 		const cells = $(row).children();
 
 		const move: move = {
-			input: $(cells[0]).text().split(`-`)[1].replaceAll('\n', ''),
+			input: $(cells[0]).text().replace('Jack-8', '').split(`-`)[1].replaceAll('\n', ''),
 			startup: $(cells[1]).text(),
 			startupValue: parseInt($(cells[1]).text().replaceAll('i', '')),
 			hitLevel: $(cells[2]).text(),
