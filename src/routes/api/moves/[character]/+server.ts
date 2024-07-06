@@ -52,8 +52,10 @@ export async function GET({ params }) {
 	allMovesTableRows.each((index, row) => {
 		const cells = $(row).children();
 
+		console.log(allMovesCheerio(cells[0]).text())
+
 		const move: move = {
-			input: allMovesCheerio(cells[0]).text().split('-')[1].replaceAll('\n', ''),
+			input: allMovesCheerio(cells[0]).text().replace('Jack-8', '').split('-')[1].replaceAll('\n', ''),
 			startup: $(cells[1]).text(),
 			startupValue: parseInt($(cells[1]).text().replaceAll('i', '')),
 			hitLevel: $(cells[2]).text(),
