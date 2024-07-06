@@ -120,7 +120,7 @@
 	}
 
 	function getTraps(frames: number, move: move, frameType: string) {
-		traps = filteredMoves.filter((x) => x.startupValue && x.startupValue - frames <= 10);
+		traps = filteredMoves.filter((x) => x.startupValue && x.startupValue - frames <= 10 && x.hitLevel !== 't');
 
 		traps.forEach((trap) => {
 			trap.startupValue - frames === 10 ? (trap.trades = true) : (trap.trades = false);
@@ -400,6 +400,9 @@
 								{/if}
 								Input
 							</th>
+							<th>
+								Hit Level
+							</th>
 							<th on:click={() => sortTraps('damage')}>
 								{#if $trapsSort.identifier === 'damage'}
 									{#if $trapsSort.direction === 'asc'}
@@ -449,6 +452,7 @@
 						{#each $trapRows as row}
 							<tr class="even:bg-lilac-800 odd:bg-lilac-900" on:click={() => getExtensions(row)}>
 								<td>{row.input}</td>
+								<td>{row.hitLevel}</td>
 								<td>{row.damage}</td>
 								<td>{row.startup}</td>
 								<td>{row.blockFrame}</td>
